@@ -1,0 +1,40 @@
+POST http://localhost:3001/api/persons
+content-type: application/json
+
+{
+    "name": "Harry Potter",
+    "number": "28-66-454182"
+}
+
+###
+
+POST http://localhost:3001/api/persons
+content-type: application/json
+
+{
+    "name": "Harry Potter"
+}
+
+###
+
+POST http://localhost:3001/api/persons
+content-type: application/json
+
+{
+    "number": "28-66-454182"
+}
+
+###
+
+POST http://localhost:3001/api/persons
+content-type: application/json
+
+###
+
+POST http://localhost:3001/api/persons
+content-type: application/json
+
+{
+    "name": "Mary poppendieck", 
+    "number": "39-23-6423122"
+}
