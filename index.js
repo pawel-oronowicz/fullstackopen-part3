@@ -9,17 +9,15 @@ app.use(cors())
 app.use(express.json())
 app.use(express.static('dist'))
 
-const url = process.env.MONGODB_URI;
-
-morgan.token('data', function (req, res) {
-  return JSON.stringify(req.body) 
+morgan.token('data', function (req) {
+  return JSON.stringify(req.body)
 })
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :data'))
 
 let persons = []
 
 const validateName = (enteredName) => {
-  const nameUnique = persons.find(({name}) => name.toLowerCase() === enteredName.toLowerCase())
+  const nameUnique = persons.find(({ name }) => name.toLowerCase() === enteredName.toLowerCase())
   if(nameUnique === undefined) {
     return true
   }
@@ -68,8 +66,8 @@ app.delete('/api/persons/:id', (request, response, next) => {
   Person.findByIdAndDelete(request.params.id)
     .then(result => {
       if(result === null) {
-        return response.status(400).json({ 
-          error: 'This person has already been deleted' 
+        return response.status(400).json({
+          error: 'This person has already been deleted'
         })
       } else {
         response.status(204).end()
@@ -84,13 +82,13 @@ app.post('/api/persons', (request, response, next) => {
   const body = request.body
 
   if(!body.name || !body.number) {
-    return response.status(400).json({ 
-      error: 'Name or number missing' 
+    return response.status(400).json({
+      error: 'Name or number missing'
     })
   }
 
   if(!validateName(body.name)) {
-    return response.status(400).json({ 
+    return response.status(400).json({
       error: 'Name must be unique'
     })
   }
@@ -116,8 +114,8 @@ app.put('/api/persons/:id', (request, response, next) => {
   }
 
   Person.findByIdAndUpdate(
-    request.params.id, 
-    person, 
+    request.params.id,
+    person,
     { new: true, runValidators: true, context: 'query' })
     .then(updatedPerson => {
       response.json(updatedPerson)
